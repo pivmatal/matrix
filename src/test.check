@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "s21_matrix.h"
+
+#test s21_inverse_matrix_1
+matrix_t result1;
+matrix_t result2;
+s21_create_matrix(3,3,&result1);
+double matrix[3][3] = {{2,5,7},{6,3,4},{5,-2,-3}};
+double matrix_result[3][3] = {{1,-1,1},{-38,41,-34},{27,-29,24}};
+matrix_fill(&result1,matrix);
+ck_assert_int_eq(s21_inverse_matrix(&result1,&result2),0);
+for (int i = 0; i < result2.rows; i++) {
+    for (int j = 0; j < result2.columns; j++) {
+      ck_assert_int_eq(result2.matrix[i][j],matrix_result[i][j]);
+    }
+}
+s21_remove_matrix(&result1);
+s21_remove_matrix(&result2);
+printf("1 s21_inverse_matrix \033[32mOK\n\033[0m");
+
+#test s21_inverse_matrix_2
+matrix_t result1;
+matrix_t result2;
+s21_create_matrix(2,2,&result1);
+double matrix[2][2] = {{1,0},{0,1}};
+double matrix_result[2][2] = {{1,0},{0,1}};
+matrix_fill(&result1,matrix);
+ck_assert_int_eq(s21_inverse_matrix(&result1,&result2),0);
+for (int i = 0; i < result2.rows; i++) {
+    for (int j = 0; j < result2.columns; j++) {
+      ck_assert_int_eq(result2.matrix[i][j],matrix_result[i][j]);
+    }
+}
+s21_remove_matrix(&result1);
+s21_remove_matrix(&result2);
+printf("2 s21_inverse_matrix \033[32mOK\n\033[0m");
+
+#test s21_inverse_matrix_3
+matrix_t result1;
+matrix_t result2;
+s21_create_matrix(1,1,&result1);
+result1.matrix[0][0] = 1;
+ck_assert_int_eq(s21_inverse_matrix(&result1,&result2),0);
+ck_assert_int_eq(result2.matrix[0][0],1);
+s21_remove_matrix(&result1);
+s21_remove_matrix(&result2);
+printf("3 s21_inverse_matrix \033[32mOK\n\033[0m");
+
+#test s21_inverse_matrix_4
+matrix_t result1;
+matrix_t result2;
+s21_create_matrix(3,3,&result1);
+double matrix[3][3] = {{1,1,1},{1,1,1},{2,2,2}};
+matrix_fill(&result1,matrix);
+ck_assert_int_eq(s21_inverse_matrix(&result1,&result2),2);
+s21_remove_matrix(&result1);
+printf("4 s21_inverse_matrix \033[32mOK\n\033[0m");
+
+#test s21_inverse_matrix_5
+matrix_t result1;
+matrix_t result2;
+s21_create_matrix(1,3,&result1);
+ck_assert_int_eq(s21_inverse_matrix(&result1,&result2),2);
+s21_remove_matrix(&result1);
+printf("5 s21_inverse_matrix \033[32mOK\n\033[0m");
+
+#test s21_inverse_matrix_6
+matrix_t result1;
+matrix_t result2;
+ck_assert_int_eq(s21_inverse_matrix(&result1,&result2),1);
+printf("6 s21_inverse_matrix \033[32mOK\n\033[0m");
